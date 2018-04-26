@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+</style>
+	<script type="text/javascript">
+	
+</script>
+	<h:form id="usuariosForm">
+		<p:growl id="growl" life="7000" />
+		<p:messages id="msgs" />
+		<div class="container">
+		<div class="row mb-5">
+				<div class="col col-md-12 ">
+				<h4>#{menuBeam.tituloOpcion}</h4>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col col-md-6 ">
+					<p:inputText placeholder="Nombre y apellido" id="nombre"
+						value="#{usuarioBeam.nombreBusqueda}" validatorMessage="correo" />
+				</div>
+				<div class="col col-md-6 ">
+					<p:inputText placeholder="Documento" id="documento"
+						value="#{usuarioBeam.documentoBusqueda}"
+						validatorMessage="Documento" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-md-8 ">
+					<p:commandButton styleClass="btn btn-primary" value="Buscar"
+						action="#{usuarioBeam.buscar()}" update="clientes"></p:commandButton>
+					<p:commandButton styleClass="btn btn-primary" value="Crear"
+						action="#{usuarioBeam.abrirPupupCrear()}"></p:commandButton>
+					<p:commandButton styleClass="btn btn-primary" value="Exportar"></p:commandButton>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col col-md-12" align="center">
+					<p:dataTable var="cli" value="#{usuarioBeam.usuarioList}"
+						emptyMessage="No hay clientes con los parámetros ingresados"
+						id="clientes" rows="10" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+						<p:column headerText="Opciones">
+							<p:commandButton icon="ui-icon-pencil" update="@form"
+								action="#{usuarioBeam.abrirPopupEditar(cli)}" ></p:commandButton>
+							<p:commandButton icon="ui-icon-newwin"  update="usuariosForm:opcionesUsuarioForm"
+								action="#{usuarioBeam.abrirPopupOpcionesUsuario(cli)}" ></p:commandButton>
+						</p:column>
+						<p:column headerText="Nombre">
+							<h:outputText value="#{cli.nombre}" />
+						</p:column>
+						<p:column headerText="Documento">
+							<h:outputText value="#{cli.identificacion}" />
+						</p:column>
+						<p:column headerText="Login">
+							<h:outputText value="#{cli.login}" />
+						</p:column>
+						<p:column headerText="Rol">
+							<h:outputText value="#{cli.rolId.nombre}" />
+						</p:column>
+					</p:dataTable>
+				</div>
+			</div>
+		</div>
+		
+		<p:dialog widgetVar="crearUsuario" header="Crear Usuario"
+			id="crearUsuario1" closeOnEscape="true" showEffect="fade"
+			resizable="false">
+			<div>
+				<ui:include src="/WEB-INF/facelets/usuarios/crearUsuario.xhtml" />
+			</div>
+		</p:dialog>
+		<p:dialog widgetVar="opcionesUsuario" header="Asignar opciones osuario"
+			id="opcionesUsuario1" closeOnEscape="true" showEffect="fade"
+			resizable="false">
+			<div>
+				<ui:include src="/WEB-INF/facelets/usuarios/opcionesUsuario.xhtml" />
+			</div>
+		</p:dialog>
+	</h:form>
+</ui:composition>

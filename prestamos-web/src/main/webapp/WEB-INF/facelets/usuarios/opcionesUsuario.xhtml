@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+	<script type="text/javascript">
+
+	</script>
+	<h:form id="opcionesUsuarioForm">
+		<p:growl id="growl" life="7000" />
+		<p:messages id="msgs" />
+		<div class="container">
+			<div class="row mb-12">
+				<div class="col col-md-12">
+					<p:outputLabel value="Usuario: #{usuarioBeam.usuarioSelect.nombre}"></p:outputLabel>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col col-md-12 ">
+					<p:pickList id="pickList" value="#{usuarioBeam.opciones}"
+						var="opciones" itemLabel="#{opciones}" itemValue="#{opciones}">
+						<f:facet name="sourceCaption">Desactivas</f:facet>
+						<f:facet name="targetCaption">Activas</f:facet>
+						 <p:ajax event="transfer" update="@this,pickList" listener="#{usuarioBeam.onTransfer}" />
+					</p:pickList>
+				</div>
+			</div>
+			<div class="row mb-12">
+				<div class="col col-md-6 ">
+					<p:commandButton value="Guardar"
+						action="#{usuarioBeam.guardarOpciones()}" aupdate="growl" process="@form"
+						style="margin-top:5px" />
+				</div>
+
+			</div>
+
+		</div>
+	</h:form>
+
+
+</ui:composition>

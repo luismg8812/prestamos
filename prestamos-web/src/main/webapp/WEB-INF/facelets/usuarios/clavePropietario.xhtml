@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+	<script type="text/javascript">
+
+	</script>
+	<h:form id="clavePropietarioForm">
+		<p:growl id="growl" life="7000" />
+		<p:messages id="msgs" />
+		<div class="container">
+			<div class="row mb-12">
+				<div class="col col-md-6 ">
+					<p:inputText placeholder="Login" id="login"  value="#{autenticacionBeam.propietarioBorrar}"/>
+				</div>
+				<div class="col col-md-6 ">
+					<p:password placeholder="Contraseña" id="contraseña" value="#{autenticacionBeam.password}" />
+				</div>
+			</div>
+			
+			<div class="col col-md-8 mt-2 ">
+				<p:commandButton styleClass="btn btn-primary" value="Ingrersar"  action="#{autenticacionBeam.clavePropietario}" process="@form" update="growl"></p:commandButton>
+				<p:commandButton styleClass="btn btn-primary" value="Cancelar" onclick="PF('clavePropietarioRecaudo').hide();"></p:commandButton>
+			</div>
+			<p:commandButton action="#{recaudosBeam.posGuardar()}" style="display:none" id="btnRecaudos"></p:commandButton>
+		</div>
+	</h:form>
+	
+
+</ui:composition>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.highlight {
+	background: red !important;
+}
+</style>
+	<script type="text/javascript">
+	
+</script>
+	<h:form id="cobradoresForm">
+		<p:growl id="growl" life="7000" />
+		<p:messages id="msgs" />
+		<div class="container">
+			<div class="row mb-5">
+				<div class="col col-md-12 ">
+					<h4>#{menuBeam.tituloOpcion}</h4>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col col-md-6 ">
+					<p:inputText placeholder="Nombre y apellido" id="nombre"
+						value="#{cobradorBeam.nombreBusqueda}" validatorMessage="correo" />
+				</div>
+				<div class="col col-md-6 ">
+					<p:inputText placeholder="Documento" id="documento"
+						value="#{cobradorBeam.documentoBusqueda}"
+						validatorMessage="Documento" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-md-8 ">
+					<p:commandButton styleClass="btn btn-primary" value="Buscar"
+						action="#{cobradorBeam.buscar()}" update="clientes"></p:commandButton>
+					<p:commandButton styleClass="btn btn-primary" value="Crear"
+						action="#{cobradorBeam.abrirPupupCrear()}"></p:commandButton>
+					<p:commandButton styleClass="btn btn-primary" value="Exportar"></p:commandButton>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col col-md-12" align="center">
+					<p:dataTable var="cli" value="#{cobradorBeam.cobradorList}"
+						emptyMessage="No hay clientes con los parámetros ingresados"
+						id="clientes" rows="10" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15">
+						<p:column headerText="Opciones">
+							<p:commandButton icon="ui-icon-pencil" update="@form"
+								action="#{cobradorBeam.abrirPopupEditar(cli)}"></p:commandButton>
+							<p:commandButton icon="ui-icon-close">
+								<p:confirm header="Confirmación"
+									message="Esta seguro de inactivar este Cobrador?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column headerText="Nombre">
+							<h:outputText value="#{cli.nombre}" />
+						</p:column>
+
+						<p:column headerText="Documento">
+							<h:outputText value="#{cli.documento}" />
+						</p:column>
+
+						<p:column headerText="Celular">
+							<h:outputText value="#{cli.celular}" />
+						</p:column>
+
+						<p:column headerText="Cledito Activo">
+							<h:outputText value="#{cli.direccion}" />
+						</p:column>
+
+					</p:dataTable>
+				</div>
+			</div>
+		</div>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+		<p:dialog widgetVar="crearCobrador" header="Crear Cobrador"
+			id="crearCliente1" closeOnEscape="true" showEffect="fade"
+			resizable="false">
+			<div>
+				<ui:include src="/WEB-INF/facelets/cobradores/crearCobrador.xhtml" />
+			</div>
+		</p:dialog>
+	</h:form>
+</ui:composition>

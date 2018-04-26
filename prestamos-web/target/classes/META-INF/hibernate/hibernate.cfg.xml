@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="coneccion_oracle">
+		<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="hibernate.connection.password">nuevof</property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe </property>
+		<property name="hibernate.connection.username">prestamos</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+		<mapping class="com.prestamos.model.Usuario" />
+		<mapping class="com.prestamos.model.Rol" />
+		<mapping class="com.prestamos.model.SubMenu" />
+		<mapping class="com.prestamos.model.Menu" />
+		<mapping class="com.prestamos.model.Cliente" />
+		<mapping class="com.prestamos.model.OpcionUsuario" />
+		<mapping class="com.prestamos.model.Cobrador" />
+		<mapping class="com.prestamos.model.Credito" />
+		<mapping class="com.prestamos.model.Recaudo" />
+	</session-factory>
+</hibernate-configuration>

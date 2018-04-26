@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet name="/css/bootstrap.min.css" />
+	<h:outputStylesheet name="/css/style.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
+	<title>PRESTAMOS</title>
+</h:head>
+
+<body>
+	<div class="container">
+		<div class="row" align="center">
+			<div class="col-md-12 header">
+				<ui:insert name="header">
+
+					<h1>
+						<a href="">PRESTAMOS</a>
+
+					</h1>
+				</ui:insert>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 menu1" align="center">
+				<ui:insert name="menu">
+					<h1>
+						<img class="img-circle" id="img_logo" style="text-align: center;"
+							src="resources/images/logoNice2.png" width="30%" height="60%" />
+					</h1>
+					<br />
+					<h4>
+						Systema de gestión de prestamos
+					</h4>
+					<br />
+				</ui:insert>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 content-area">
+				<div class="content" align="center">
+					<ui:insert name="content">
+									
+					</ui:insert>
+				</div>
+				<div class="sidebar">
+					<ui:insert name="sidebar">
+						
+					</ui:insert>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 footer">
+				<ui:insert name="footer">
+					
+				</ui:insert>
+			</div>
+		</div>
+
+	</div>
+	<!-- 	<script src="resources/js/bootstrap.min.js"></script> -->
+
+</body>
+
+</html>

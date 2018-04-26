@@ -1,0 +1,18 @@
+.header{
+	/*border: 1px solid black;*/
+	margin-bottom: 20px;
+	text-align: center;
+}
+.menu1{
+	
+	margin-bottom: 10px;
+	text-align: center;
+}
+.content-area{
+	 font-size: 12px;
+	margin-bottom: 10px;
+}
+.footer{
+	
+	text-align: center;
+}

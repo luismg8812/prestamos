@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+	<script type="text/javascript">
+
+	</script>
+	<h:form id="crearCreditoForm">
+		<p:growl id="growl" life="7000" />
+		<p:messages id="msgs" />
+		<div class="container">
+			<div class="row mb-12">
+				<div class="col col-md-12 mb-3">* Los campos cliente,
+					cobrador, interes y fecha de inicio credito son obligatorios para
+					el calculo automático</div>
+			</div>
+			<div class="row mb-12">
+				<div class="col col-md-6 ">
+					<p:selectOneMenu value="#{creditosBeam.clienteId}"
+						placeholder="Selccionar cliente">
+						<f:selectItem itemLabel="Seccionar cliente" itemValue="" />
+						<f:selectItems value="#{creditosBeam.clienteList}"
+							noSelectionValue="Seleccione credito" var="dep"
+							itemLabel="#{dep.nombre}" itemValue="#{dep.clienteId}" />
+						<p:ajax event="change"
+							listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
+					</p:selectOneMenu>
+				</div>
+				<div class="col col-md-6 ">
+					<p:selectOneMenu value="#{creditosBeam.cobradorId}"
+						placeholder="Selccionar cobrador">
+						<f:selectItem itemLabel="Seccionar cobrador" itemValue="" />
+						<f:selectItems value="#{creditosBeam.cobradorList}"
+							noSelectionValue="Seleccione Cobrador" var="dep"
+							itemLabel="#{dep.nombre}" itemValue="#{dep.cobradorId}" />
+						<p:ajax event="change"
+							listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
+					</p:selectOneMenu>
+				</div>
+			</div>
+			<div class="row mb-12">
+				<div class="col col-md-6 form-inline">
+
+					<p:inputNumber id="totalPrestamo"
+						value="#{creditosBeam.totalPrestamo}"
+						placeholder="Valor del prestamo">						
+						<p:ajax event="blur" listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
+					</p:inputNumber>
+				</div>
+				<div class="col col-md-6 ">
+					<p:inputText placeholder="Interes" id="interes"
+						value="#{creditosBeam.interes}">
+						<p:ajax event="blur" listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
+					</p:inputText>
+				</div>
+			</div>
+			<div class="row mb-12">
+				<div class="col col-md-6 ">
+					<p:calendar id="fechaInicial" value="#{creditosBeam.fechaInicio}"
+						placeholder="Inicio Crédito" pattern="dd-MM-yyyy" mask="true" >
+							<p:ajax event="blur" listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin" ></p:ajax>
+						</p:calendar>
+				</div>
+				<div class="col col-md-6 ">
+					<p:calendar id="fechaFin" value="#{creditosBeam.fechaFin}" disabled="true"
+						readonly="true" placeholder="Fin Crédito" pattern="dd-MM-yyyy"
+						mask="true" > 					
+						</p:calendar>
+				</div>
+			</div>
+			<div class="row mb-12 mb-3">
+				<div class="col col-md-6 form-inline">
+					<h:outputLabel value="Numero de cuotas" for="nCuotas" />
+					<p:inputText placeholder="Numero de cuotas" id="nCuotas" 
+						value="#{creditosBeam.numeroCuotas}" >
+							<p:ajax event="blur" listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin" ></p:ajax>
+						</p:inputText>
+				</div>
+				<div class="col col-md-6 form-inline"></div>
+			</div>
+			<div class="row mb-12 mb-3">
+				<div class="col col-md-6 form-inline">
+					<h:outputLabel value="Valor a pagar" for="valorPagar" />				
+					<h:outputLabel id="valorPagar" value="#{creditosBeam.valorPagar}" >
+						<f:convertNumber pattern="¤#,##0" currencySymbol="$" />
+					</h:outputLabel>
+				</div>
+				<div class="col col-md-6 form-inline">
+					<h:outputLabel value="Valor Cuota: " for="valorCuota" />					
+					<h:outputLabel id="valorCuota" value="#{creditosBeam.valorCuota}" >
+						<f:convertNumber pattern="¤#,##0" currencySymbol="$" />
+					</h:outputLabel>
+				</div>
+			</div>
+			
+
+			<div class="col col-md-8 ">
+				<p:commandButton styleClass="btn btn-primary" value="Guardar"
+					action="#{creditosBeam.crearCredito}" update="growl"></p:commandButton>
+				<p:commandButton styleClass="btn btn-primary" value="Cancelar"
+					onclick="PF('crearCliente').hide();"></p:commandButton>
+			</div>
+		</div>
+	</h:form>
+
+
+</ui:composition>

@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet name="/css/bootstrap.min.css" />
+	<h:outputStylesheet name="/css/style.css" />
+	<!-- 	<script -->
+	<!-- 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
+	<title>PRESTAMOS</title>
+</h:head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row mt-4" align="center">
+			<ui:insert name="header">
+				<div class="col-md-8 ml-4 header" align="left">
+
+					<h1 align="left">
+						<img class="img-circle" id="img_logo" style="text-align: center;"
+							src="resources/images/logoNice2.png" width="20%" height="30%" />
+						PRESTAMOS
+					</h1>
+
+				</div>
+				<div class="col-md-4 header"></div>
+			</ui:insert>
+
+		</div>
+		<div class="row">
+			<div class="col-md-12 menu" align="right">
+				<ui:insert name="menu">
+
+				</ui:insert>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 content-area form-inline">
+
+				<div class="sidebar col-md-2">
+					<ui:insert name="sidebar">
+						<h:form id="menu">
+							<p:growl id="growl" life="7000" />
+							<p:menu toggleable="true" style="width: 100%">
+								<p:menuitem value="Cerrar Sesión"
+									action="#{menuBeam.cerrrarSesion()}" />
+								<c:forEach items="#{menuBeam.menus}" var="men">
+									<p:submenu label="#{men.nombre}">
+										<c:forEach items="#{menuBeam.getSubMenus(men.menuId)}"
+											var="ou">
+											<p:menuitem value="#{ou.subMenuId.nombre}"
+												action="#{menuBeam.redireccionar(ou.subMenuId)}"
+												update="growl" />
+										</c:forEach>
+									</p:submenu>
+								</c:forEach>
+							</p:menu>
+						</h:form>
+					</ui:insert>
+				</div>
+				<div class="content col-md-10 ">
+					<ui:insert name="content">
+					
+					</ui:insert>
+
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 footer">
+				<ui:insert name="footer">
+
+				</ui:insert>
+			</div>
+		</div>
+
+	</div>
+	<!-- 	<script src="resources/js/bootstrap.min.js"></script> -->
+
+</body>
+
+</html>

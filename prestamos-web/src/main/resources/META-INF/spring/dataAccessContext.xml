@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+ 
+<!-- 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">  -->
+<!-- 		<property name="jndiName" value="jdbc/bancoHv" /> <property  -->
+<!-- 		name="lookupOnStartup" value="false" /> <property name="cache" value="true"  -->
+<!--  		/> <property name="proxyInterface" value="javax.sql.DataSource" /> </bean>  -->
+
+<!--    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">    -->
+<!--  		<property name="jndiName" value="java:/OracleDS" /> <property   -->
+<!--  		name="lookupOnStartup" value="false" /> <property name="cache" value="true"   -->
+<!--   		/> <property name="proxyInterface" value="javax.sql.DataSource" /> </bean>     -->
+
+<!-- 		datasource de orecle -->
+<!-- 	<bean id="dataSource" -->
+<!-- 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!-- 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
+<!-- 		<property name="url" value="${appComfe.db.url}" /> -->
+<!-- 		<property name="username" value="${appComfe.db.user}" /> -->
+<!-- 		<property name="password" value="${appComfe.db.pass}" /> -->
+<!-- 	</bean> -->
+
+<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="${prestamos.db.url}" />
+		<property name="username" value="${prestamos.db.user}" />
+		<property name="password" value="${prestamos.db.pass}" />
+	</bean>
+
+
+	<!-- Se configura la ubicación estándar de configuraciones de hibernate 
+		para detectar la configuración global de Hibernate y la configuración que 
+		contiene el mapeo de los archivos hbm para las entidades del modelo. La ubicación 
+		estándar será META-INF/hibernate/hibernate.cfg.xml -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+
+		<property name="configLocations">
+			<value>classpath*:META-INF/hibernate/hibernate.cfg.xml</value>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory">
+		</property>
+
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>

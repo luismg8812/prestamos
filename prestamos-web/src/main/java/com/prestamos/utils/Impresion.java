@@ -24,7 +24,6 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.prestamos.model.Cobrador;
 import com.prestamos.vo.CuadreCajaVo;
 import com.prestamos.vo.RecaudoVo;
 

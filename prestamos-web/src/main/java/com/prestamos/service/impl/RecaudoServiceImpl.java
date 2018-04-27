@@ -5,16 +5,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.prestamos.api.PrestamosException;
-import com.prestamos.dao.ClienteDao;
 import com.prestamos.dao.RecaudoDao;
-import com.prestamos.model.Cliente;
 import com.prestamos.model.Recaudo;
-import com.prestamos.service.ClienteService;
 import com.prestamos.service.RecaudoService;
 
 

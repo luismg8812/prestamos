@@ -1,7 +1,6 @@
 package com.prestamos.beam;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 //javax.enterprise.context.SessionScoped
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
 import org.jboss.logging.Logger;
 import org.primefaces.context.RequestContext;
@@ -25,8 +23,6 @@ import org.springframework.stereotype.Controller;
 
 import com.itextpdf.text.DocumentException;
 import com.prestamos.api.PrestamosException;
-import com.prestamos.model.Cliente;
-import com.prestamos.model.Cobrador;
 import com.prestamos.model.Credito;
 import com.prestamos.model.Recaudo;
 import com.prestamos.model.Usuario;

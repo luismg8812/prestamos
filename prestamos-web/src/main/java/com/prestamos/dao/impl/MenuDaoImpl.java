@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.prestamos.api.PrestamosException;
 import com.prestamos.dao.MenuDao;
-import com.prestamos.model.Cliente;
 import com.prestamos.model.Menu;
 import com.prestamos.model.SubMenu;
 

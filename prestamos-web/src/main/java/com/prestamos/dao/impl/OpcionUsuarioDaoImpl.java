@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.prestamos.api.PrestamosException;
 import com.prestamos.dao.OpcionUsuarioDao;
-import com.prestamos.model.Cliente;
 import com.prestamos.model.OpcionUsuario;
 
 

@@ -1,10 +1,8 @@
 package com.prestamos.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.prestamos.api.PrestamosException;
-import com.prestamos.model.Cliente;
 import com.prestamos.model.Cobrador;
 
 

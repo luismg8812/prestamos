@@ -16,10 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prestamos.api.PrestamosException;
-import com.prestamos.dao.ClienteDao;
 import com.prestamos.dao.RecaudoDao;
-import com.prestamos.model.Cliente;
-import com.prestamos.model.OpcionUsuario;
 import com.prestamos.model.Recaudo;
 
 

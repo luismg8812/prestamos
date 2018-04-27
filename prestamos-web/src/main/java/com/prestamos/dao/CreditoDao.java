@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.prestamos.api.PrestamosException;
-import com.prestamos.model.Cliente;
 import com.prestamos.model.Credito;
 
 

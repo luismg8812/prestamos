@@ -52,8 +52,7 @@ public class UsuarioDaoImpl extends HibernateDaoSupport implements UsuarioDao {
 	@Override
 	@Transactional
 	public Usuario getById(BigDecimal id) throws PrestamosException {
-		final Usuario entity = (Usuario) getHibernateTemplate().load(Usuario.class, id);
-		return entity;
+		return  getHibernateTemplate().load(Usuario.class, id);
 	}
 
 	@SuppressWarnings("unchecked")

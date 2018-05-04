@@ -69,7 +69,7 @@ public class AutenticacionBeam implements Serializable {
 				activar(accion);
 				setPropietarioBorrar(null);
 				setPassword(null);
-				RequestContext.getCurrentInstance().execute("PF('clavePropietarioRecaudo').hide();");
+				
 			} else {
 				setMensajeError("Usuario o clave erroneos o no es un propietario");
 				return;
@@ -137,8 +137,13 @@ public class AutenticacionBeam implements Serializable {
 		switch (accion) {
 		case "btnGuardarRecaudo":
 			RequestContext.getCurrentInstance().execute("document.getElementById('recaudosDiaForm:clavePropietarioForm:btnRecaudos').click();");	
+			RequestContext.getCurrentInstance().execute("PF('clavePropietarioRecaudo').hide();");
 			break;
-
+		case "btnGuardarCredito":
+			RequestContext.getCurrentInstance().execute("document.getElementById('creditosForm:clavePropietarioForm:btnCreditos').click();");	
+			RequestContext.getCurrentInstance().execute("PF('clavePropietarioCredito').hide();");
+			break;
+			
 		default:
 			break;
 		}

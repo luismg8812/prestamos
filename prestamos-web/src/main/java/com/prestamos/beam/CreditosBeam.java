@@ -3,10 +3,12 @@ package com.prestamos.beam;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 //javax.enterprise.context.SessionScoped
 import javax.faces.context.FacesContext;
 
@@ -48,6 +50,9 @@ public class CreditosBeam implements Serializable {
 	ClienteService clienteService = context.getBean(ClienteService.class);
 	CobradorService cobradorService = context.getBean(CobradorService.class);
 	CreditoService creditoService = context.getBean(CreditoService.class);
+	
+	ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+	Map<String, Object> sessionMap = externalContext.getSessionMap();
 	
 	private Credito creditoSelect;
 	
@@ -103,6 +108,18 @@ public class CreditosBeam implements Serializable {
 		if(!validaciones()){
 			return;
 		}
+		if(getInteres()<=0.0){
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Necesita autorización para crear un credito con 0% de interes", ""));
+			sessionMap.put("botonBorrado", "btnGuardarCredito");
+			RequestContext.getCurrentInstance().execute("PF('clavePropietarioCredito').show();");
+			return;
+		}
+		subGuardar();
+		
+	}
+	
+	public void subGuardar() {
 		try {
 			Credito credito = new Credito();
 			Cliente cliente = new Cliente();
@@ -118,7 +135,7 @@ public class CreditosBeam implements Serializable {
 			credito.setSaldo(getValorPagar());
 			credito.setNumeroCuotas(getNumeroCuotas());
 			credito.setTotalPrestamo(getTotalPrestamo());
-			//credito.setUsuarioId(usuarioId)
+			//credito.setUsuarioId()
 			credito.setValorCuota(getValorCuota());
 			credito.setValorPagar(getValorPagar());
 			creditoService.save(credito);
@@ -132,7 +149,7 @@ public class CreditosBeam implements Serializable {
 		}
 		
 	}
-	
+
 	public void buscar(){
 		try {
 			setCreditoList(creditoService.getByFiltros(getClienteBusqueda(), getCobradorBusqueda(),getFechaInicioBusqueda(),getFechaFinBusqueda()));
@@ -175,7 +192,7 @@ public class CreditosBeam implements Serializable {
 			valido=Boolean.FALSE;
 			return valido;
 		}
-		if(getInteres()<1 || getInteres()>100){
+		if(getInteres()<0 || getInteres()>100){
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "El interes tiene que estar entre 1 y 100", ""));
 			valido=Boolean.FALSE; 
@@ -187,6 +204,8 @@ public class CreditosBeam implements Serializable {
 			valido=Boolean.FALSE;
 			
 		}
+		
+		
 		return valido;
 	}
 	

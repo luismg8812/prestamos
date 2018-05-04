@@ -112,7 +112,7 @@ public class ClienteBeam implements Serializable {
 			cliente.setDocumento(getDocumento().trim());
 			cliente.setFechaRegistro(new Date());
 			cliente.setFijo(getFijo());			
-			cliente.setNombre(getNombre().toLowerCase());
+			cliente.setNombre(getNombre().toUpperCase());
 			clienteService.save(cliente);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Cliente creado exitosamente", ""));

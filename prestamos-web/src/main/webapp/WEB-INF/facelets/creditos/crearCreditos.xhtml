@@ -25,7 +25,7 @@
 						<f:selectItems value="#{creditosBeam.clienteList}"
 							noSelectionValue="Seleccione credito" var="dep"
 							itemLabel="#{dep.nombre}" itemValue="#{dep.clienteId}" />
-						<p:ajax event="change"
+						<p:ajax event="change" process="@form"
 							listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
 					</p:selectOneMenu>
 				</div>
@@ -36,8 +36,8 @@
 						<f:selectItems value="#{creditosBeam.cobradorList}"
 							noSelectionValue="Seleccione Cobrador" var="dep"
 							itemLabel="#{dep.nombre}" itemValue="#{dep.cobradorId}" />
-						<p:ajax event="change"
-							listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
+						<p:ajax event="change" process="@form"
+							listener="#{creditosBeam.calculoAutomatico}"  update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
 					</p:selectOneMenu>
 				</div>
 			</div>
@@ -47,13 +47,15 @@
 					<p:inputNumber id="totalPrestamo"
 						value="#{creditosBeam.totalPrestamo}"
 						placeholder="Valor del prestamo">						
-						<p:ajax event="blur" listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
+						<p:ajax event="blur"  process="@form"
+						listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
 					</p:inputNumber>
 				</div>
 				<div class="col col-md-6 ">
 					<p:inputText placeholder="Interes" id="interes"
 						value="#{creditosBeam.interes}">
-						<p:ajax event="blur" listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
+						<p:ajax event="blur"  process="@form"
+						listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin"></p:ajax>
 					</p:inputText>
 				</div>
 			</div>
@@ -61,7 +63,8 @@
 				<div class="col col-md-6 ">
 					<p:calendar id="fechaInicial" value="#{creditosBeam.fechaInicio}"
 						placeholder="Inicio Crédito" pattern="dd-MM-yyyy" mask="true" >
-							<p:ajax event="blur" listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin" ></p:ajax>
+							<p:ajax event="blur"  process="@form"
+							listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin" ></p:ajax>
 						</p:calendar>
 				</div>
 				<div class="col col-md-6 ">
@@ -76,7 +79,8 @@
 					<h:outputLabel value="Numero de cuotas" for="nCuotas" />
 					<p:inputText placeholder="Numero de cuotas" id="nCuotas" 
 						value="#{creditosBeam.numeroCuotas}" >
-							<p:ajax event="blur" listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin" ></p:ajax>
+							<p:ajax event="blur" process="@form"
+							listener="#{creditosBeam.calculoAutomatico}" update="growl,valorCuota,valorPagar,fechaFin" ></p:ajax>
 						</p:inputText>
 				</div>
 				<div class="col col-md-6 form-inline"></div>
@@ -98,7 +102,7 @@
 			
 
 			<div class="col col-md-8 ">
-				<p:commandButton styleClass="btn btn-primary" value="Guardar"
+				<p:commandButton styleClass="btn btn-primary" value="Guardar" process="@form"
 					action="#{creditosBeam.crearCredito}" update="growl"></p:commandButton>
 				<p:commandButton styleClass="btn btn-primary" value="Cancelar"
 					onclick="PF('crearCliente').hide();"></p:commandButton>

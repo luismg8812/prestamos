@@ -4,13 +4,11 @@ package com.prestamos.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.prestamos.api.PrestamosException;
 import com.prestamos.dao.UsuarioDao;
-import com.prestamos.model.Cliente;
 import com.prestamos.model.Rol;
 import com.prestamos.model.Usuario;
 import com.prestamos.service.UsuarioService;

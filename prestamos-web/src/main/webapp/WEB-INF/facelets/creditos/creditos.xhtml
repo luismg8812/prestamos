@@ -163,6 +163,13 @@
 				<ui:include src="/WEB-INF/facelets/creditos/editarCreditos.xhtml" />
 			</div>
 		</p:dialog>
-
+		<p:dialog widgetVar="clavePropietarioCredito"
+			onShow="document.getElementById('creditosForm:clavePropietarioForm:contraseña').value='';"
+			header="Login Propietario" id="claveBorrado2" closeOnEscape="true"
+			showEffect="fade" resizable="false">
+			<div>
+				<ui:include src="/WEB-INF/facelets/usuarios/clavePropietario.xhtml" />
+			</div>
+		</p:dialog>
 	</h:form>
 </ui:composition>

@@ -88,11 +88,10 @@ public class RecaudosBeam implements Serializable {
 		try {
 			Impresion.imprimirCuadreCaja(cu);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error impriminedno cuadre de caja:"+e.getMessage());
+			
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error impriminedno cuadre de caja:"+e.getMessage());
 		}
 	}
 

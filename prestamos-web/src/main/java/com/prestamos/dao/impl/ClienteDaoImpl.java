@@ -3,11 +3,11 @@ package com.prestamos.dao.impl;
 
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
@@ -22,7 +22,6 @@ import com.prestamos.model.Cliente;
 @Repository
 public class ClienteDaoImpl extends HibernateDaoSupport implements ClienteDao {
 
-	// private SessionFactory sessionFactory;
 
 	@Autowired
 	public ClienteDaoImpl(SessionFactory sessionFactory1) {
@@ -51,15 +50,15 @@ public class ClienteDaoImpl extends HibernateDaoSupport implements ClienteDao {
 	@Override
 	@Transactional
 	public Cliente getById(BigDecimal id) throws PrestamosException {
-		final Cliente entity = (Cliente) getHibernateTemplate().load(Cliente.class, id);
-		return entity;
+		return   getHibernateTemplate().load(Cliente.class, id);
+		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<Cliente> getByAll() throws PrestamosException {
-		List<Cliente> documentoList = new ArrayList<>();
+		List<Cliente> documentoList ;
 		DetachedCriteria detached = DetachedCriteria.forClass(Cliente.class);
 		detached.addOrder(org.hibernate.criterion.Order.asc("nombre"));
 		documentoList = (List<Cliente>) getHibernateTemplate().findByCriteria(detached);
@@ -72,6 +71,7 @@ public class ClienteDaoImpl extends HibernateDaoSupport implements ClienteDao {
 		List<Cliente> cliente ;
 		DetachedCriteria detached = DetachedCriteria.forClass(Cliente.class);
 		detached.add(Restrictions.eq("login", name));
+		detached.addOrder(org.hibernate.criterion.Order.asc("nombre"));
 		cliente = (List<Cliente>) getHibernateTemplate().findByCriteria(detached);
 		return cliente.isEmpty()?null:cliente.get(0);
 	}
@@ -80,16 +80,16 @@ public class ClienteDaoImpl extends HibernateDaoSupport implements ClienteDao {
 	@Override
 	@Transactional
 	public List<Cliente> getByFiltros(String nombre,String documento) throws PrestamosException {
-		List<Cliente> documentoList = new ArrayList<>();
+		List<Cliente> documentoList ;
 		DetachedCriteria detached = DetachedCriteria.forClass(Cliente.class);
 		if(nombre!=null && !nombre.isEmpty()){
-			detached.add(Restrictions.eq("nombre", nombre));
+			detached.add(Restrictions.ilike("nombre", "%"+nombre+"%"));
 		}
 		if(documento!=null && !documento.isEmpty()){
 			detached.add(Restrictions.eq("documento", documento));	
 		}
 		
-		detached.addOrder(org.hibernate.criterion.Order.asc("nombre"));
+		detached.addOrder(Order.asc("nombre"));
 		documentoList = (List<Cliente>) getHibernateTemplate().findByCriteria(detached);
 		return documentoList;
 	}

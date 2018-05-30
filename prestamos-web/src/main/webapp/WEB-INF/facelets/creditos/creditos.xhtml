@@ -24,7 +24,8 @@
 			</div>
 			<div class="row mb-3">
 				<div class="col col-md-4 ">
-					<p:selectOneMenu value="#{creditosBeam.clienteBusqueda}"
+					<p:selectOneMenu value="#{creditosBeam.clienteBusqueda}" 
+                         filter="true" filterMatchMode="startsWith"
 						placeholder="Selccionar cliente">
 						<f:selectItem itemLabel="Seccionar cliente" itemValue="" />
 						<f:selectItems value="#{creditosBeam.clienteList}"
@@ -59,7 +60,7 @@
 					<p:commandButton styleClass="btn btn-primary" value="Buscar"
 						action="#{creditosBeam.buscar()}"
 						update="clientes,total,totalInteres"></p:commandButton>
-					<p:commandButton styleClass="btn btn-primary" value="Crear"
+					<p:commandButton styleClass="btn btn-primary" value="Crear" 
 						action="#{clienteBeam.abrirPupupCrear()}"></p:commandButton>
 					<p:commandButton styleClass="btn btn-primary" value="Exportar"></p:commandButton>
 
@@ -163,13 +164,6 @@
 				<ui:include src="/WEB-INF/facelets/creditos/editarCreditos.xhtml" />
 			</div>
 		</p:dialog>
-		<p:dialog widgetVar="clavePropietarioCredito"
-			onShow="document.getElementById('creditosForm:clavePropietarioForm:contraseña').value='';"
-			header="Login Propietario" id="claveBorrado2" closeOnEscape="true"
-			showEffect="fade" resizable="false">
-			<div>
-				<ui:include src="/WEB-INF/facelets/usuarios/clavePropietario.xhtml" />
-			</div>
-		</p:dialog>
+		
 	</h:form>
 </ui:composition>

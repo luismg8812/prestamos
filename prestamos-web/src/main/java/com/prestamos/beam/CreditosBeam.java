@@ -13,6 +13,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -27,8 +28,6 @@ import com.prestamos.service.CobradorService;
 import com.prestamos.service.CreditoService;
 import com.prestamos.utils.Calculos;
 
-
-
 /**
  * @author Luis Miguel Gonzalez
  *
@@ -38,25 +37,25 @@ import com.prestamos.utils.Calculos;
 @SessionScoped
 @Controller
 public class CreditosBeam implements Serializable {
-	
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8352783656056889491L;
 	private static Logger log = Logger.getLogger(CreditosBeam.class);
-	
-	ApplicationContext context = new ClassPathXmlApplicationContext("classpath*:META-INF/spring/applicationContext.xml");
+
+	ApplicationContext context = new ClassPathXmlApplicationContext(
+			"classpath*:META-INF/spring/applicationContext.xml");
 	ClienteService clienteService = context.getBean(ClienteService.class);
 	CobradorService cobradorService = context.getBean(CobradorService.class);
 	CreditoService creditoService = context.getBean(CreditoService.class);
-	
+
 	ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 	Map<String, Object> sessionMap = externalContext.getSessionMap();
-	
+
 	private Credito creditoSelect;
-	
-	//busqueda
+
+	// busqueda
 	private List<Cobrador> cobradorList;
 	private List<Cliente> clienteList;
 	private Date fechaInicioBusqueda;
@@ -66,8 +65,8 @@ public class CreditosBeam implements Serializable {
 	private List<Credito> creditoList;
 	private Double total;
 	private Double totalConInteres;
-	
-	//crear
+
+	// crear
 	private Long cobradorId;
 	private Long clienteId;
 	private Integer numeroCuotas;
@@ -77,15 +76,29 @@ public class CreditosBeam implements Serializable {
 	private Double valorPagar;
 	private Double valorCuota;
 	private Double totalPrestamo;
-	
-	public void abrirPopupEdicion(Credito credito){
+
+	public void abrirPopupEdicion(Credito credito) {
 		setCreditoSelect(credito);
+
+		setCreditoSelect(credito);
+		setClienteId(null);
+		setCobradorId(null);
+		setFechaFin(null);
+		setFechaInicio(null);
+		setInteres(null);
+		setValorPagar(null);
+		setNumeroCuotas(null);
+		setTotalPrestamo(null);
+		// credito.setUsuarioId()
+		setValorCuota(null);
+		setValorPagar(null);
+
 		setCobradorId(credito.getCobradorId().getCobradorId());
-		RequestContext.getCurrentInstance().execute("PF('editarCredito').show();");
+		PrimeFaces.current().executeScript("PF('editarCredito').show();");
 	}
-	
-	public void editarCredito(){
-		if(getCobradorId()==null){
+
+	public void editarCredito() {
+		if (getCobradorId() == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "El cobrador es obligatorio", ""));
 			return;
@@ -95,30 +108,31 @@ public class CreditosBeam implements Serializable {
 			cobrador.setCobradorId(getCobradorId());
 			getCreditoSelect().setCobradorId(cobrador);
 			creditoService.update(getCreditoSelect());
-			RequestContext.getCurrentInstance().execute("PF('editarCredito').hide();");
+			PrimeFaces.current().executeScript("PF('editarCredito').hide();");
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Crédito editado exitosamente", ""));
 		} catch (PrestamosException e) {
-			log.error("Error editando credito: "+e.getMessage());
+			log.error("Error editando credito: " + e.getMessage());
 		}
-		
+
 	}
-	
-	public void crearCredito(){
-		if(!validaciones()){
+
+	public void crearCredito() {
+		if (!validaciones()) {
 			return;
 		}
-		if(getInteres()<=0.0){
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Necesita autorización para crear un credito con 0% de interes", ""));
+		if (getInteres() <= 0.0) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Necesita autorización para crear un credito con 0% de interes", ""));
 			sessionMap.put("botonBorrado", "btnGuardarCredito");
-			RequestContext.getCurrentInstance().execute("PF('clavePropietarioCredito').show();");
+			PrimeFaces.current().executeScript("document.getElementById('clavePropietarioCredito').style.visibility='visible'");
+			PrimeFaces.current().executeScript("document.getElementById('creditosForm:crearCreditoForm:clavePropietarioForm:password').value='';");
 			return;
 		}
 		subGuardar();
-		
+
 	}
-	
+
 	public void subGuardar() {
 		try {
 			Credito credito = new Credito();
@@ -135,123 +149,135 @@ public class CreditosBeam implements Serializable {
 			credito.setSaldo(getValorPagar());
 			credito.setNumeroCuotas(getNumeroCuotas());
 			credito.setTotalPrestamo(getTotalPrestamo());
-			//credito.setUsuarioId()
+			// credito.setUsuarioId()
 			credito.setValorCuota(getValorCuota());
 			credito.setValorPagar(getValorPagar());
 			creditoService.save(credito);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Crédito creado exitosamente", ""));
-			RequestContext.getCurrentInstance().execute("PF('crearCliente').hide();");
+			PrimeFaces.current().executeScript("PF('crearCliente').hide();");
 		} catch (PrestamosException e) {
-			log.error("Error creando credito: "+e.getMessage());
+			log.error("Error creando credito: " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creando crédito", ""));
 		}
-		
+
 	}
 
-	public void buscar(){
+	public void buscar() {
 		try {
-			setCreditoList(creditoService.getByFiltros(getClienteBusqueda(), getCobradorBusqueda(),getFechaInicioBusqueda(),getFechaFinBusqueda()));
-			Double totalTemp=0.0;
+			setCreditoList(creditoService.getByFiltros(getClienteBusqueda(), getCobradorBusqueda(),
+					getFechaInicioBusqueda(), getFechaFinBusqueda()));
+			Double totalTemp = 0.0;
 			Double totalInteres = 0.0;
-			for(Credito c: getCreditoList()){
-				totalTemp+= c.getTotalPrestamo();
-				totalInteres+=c.getValorPagar();
+			for (Credito c : getCreditoList()) {
+				totalTemp += c.getTotalPrestamo();
+				totalInteres += c.getValorPagar();
 			}
 			setTotal(totalTemp);
 			setTotalConInteres(totalInteres);
 		} catch (PrestamosException e) {
-			log.error("Error en busqueda de prestamos: "+e.getMessage());
+			log.error("Error en busqueda de prestamos: " + e.getMessage());
 		}
-		
+
 	}
-	
-	public void abrirPupupCrear(){
-		creditoSelect=new Credito();
-		RequestContext.getCurrentInstance().execute("PF('crearCredito').show();");
+
+	public void abrirPupupCrear() {
+		creditoSelect = new Credito();
+		PrimeFaces.current().executeScript("PF('crearCredito').show();");
 	}
-	
-	public void calculoAutomatico(){
-		if(!validaciones()){
+
+	public void calculoAutomatico() {
+		if (!validaciones()) {
 			return;
 		}
 		log.info("entra calculo automatico");
-		Double interes1 = getInteres()/100;
-		Double totalPagar=  getTotalPrestamo()+( getTotalPrestamo()*interes1);
-		setFechaFin(Calculos.diasSindomingo(getFechaInicio(),getNumeroCuotas(),1)); 
-		setValorCuota(totalPagar/getNumeroCuotas());
-		setValorPagar(totalPagar);		
+		Double interes1 = getInteres() / 100;
+		Double totalPagar = getTotalPrestamo() + (getTotalPrestamo() * interes1);
+		setFechaFin(Calculos.diasSindomingo(getFechaInicio(), getNumeroCuotas(), 1));
+		setValorCuota(totalPagar / getNumeroCuotas());
+		setValorPagar(totalPagar);
 	}
-	
-	private Boolean validaciones(){
-		Boolean valido=Boolean.TRUE; 
-		if(getClienteId()==null || getCobradorId()==null || getInteres()==null || getFechaInicio()==null || getTotalPrestamo()==null ||getNumeroCuotas()==null){			
+
+	private Boolean validaciones() {
+		Boolean valido = Boolean.TRUE;
+		if (getClienteId() == null || getCobradorId() == null || getInteres() == null || getFechaInicio() == null
+				|| getTotalPrestamo() == null || getNumeroCuotas() == null) {
 			setValorCuota(null);
 			setValorPagar(null);
-			valido=Boolean.FALSE;
+			valido = Boolean.FALSE;
 			return valido;
 		}
-		if(getInteres()<0 || getInteres()>100){
+		if (getInteres() < 0 || getInteres() > 100) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "El interes tiene que estar entre 1 y 100", ""));
-			valido=Boolean.FALSE; 
-			
+			valido = Boolean.FALSE;
+
 		}
-		if(getNumeroCuotas()<1 || getNumeroCuotas()>200){
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "El numero de cuotas tiene que estar entre 1 y 500", ""));
-			valido=Boolean.FALSE;
-			
+		if (getNumeroCuotas() < 1 || getNumeroCuotas() > 200) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"El numero de cuotas tiene que estar entre 1 y 500", ""));
+			valido = Boolean.FALSE;
+
 		}
-		
-		
+
 		return valido;
 	}
-	
-	
 
 	public List<Cobrador> getCobradorList() {
 		cobradorList = cobradorService.getByAll();
 		return cobradorList;
 	}
+
 	public void setCobradorList(List<Cobrador> cobradorList) {
 		this.cobradorList = cobradorList;
 	}
+
 	public List<Cliente> getClienteList() {
 		clienteList = clienteService.getByAll();
 		return clienteList;
 	}
+
 	public void setClienteList(List<Cliente> clienteList) {
 		this.clienteList = clienteList;
 	}
+
 	public Date getFechaInicioBusqueda() {
 		return fechaInicioBusqueda;
 	}
+
 	public void setFechaInicioBusqueda(Date fechaInicioBusqueda) {
 		this.fechaInicioBusqueda = fechaInicioBusqueda;
 	}
+
 	public Date getFechaFinBusqueda() {
 		return fechaFinBusqueda;
 	}
+
 	public void setFechaFinBusqueda(Date fechaFinBusqueda) {
 		this.fechaFinBusqueda = fechaFinBusqueda;
 	}
+
 	public Long getCobradorBusqueda() {
 		return cobradorBusqueda;
 	}
+
 	public void setCobradorBusqueda(Long cobradorBusqueda) {
 		this.cobradorBusqueda = cobradorBusqueda;
 	}
+
 	public Long getClienteBusqueda() {
 		return clienteBusqueda;
 	}
+
 	public void setClienteBusqueda(Long clienteBusqueda) {
 		this.clienteBusqueda = clienteBusqueda;
 	}
+
 	public List<Credito> getCreditoList() {
 		return creditoList;
 	}
+
 	public void setCreditoList(List<Credito> creditoList) {
 		this.creditoList = creditoList;
 	}
@@ -351,7 +377,5 @@ public class CreditosBeam implements Serializable {
 	public void setTotalConInteres(Double totalConInteres) {
 		this.totalConInteres = totalConInteres;
 	}
-	
-	
-	
+
 }

@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -48,6 +49,11 @@ public class AutenticacionBeam implements Serializable {
 	private String propietarioBorrar;
 	private String mensajeError;
 	
+	public void clave() {
+		log.info("mensaje: "+getPassword());
+	}
+	
+	
 	/**
 	 * Metodo de logueo para la lave del propietario desde recaudos
 	 */
@@ -55,6 +61,8 @@ public class AutenticacionBeam implements Serializable {
 		
 		if (getPropietarioBorrar() == null || getPropietarioBorrar().isEmpty() || getPassword() == null
 				|| getPassword().isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"El usuario y la contrseña son obligatorios", ""));
 			setMensajeError("El usuario y la contrseña son obligatorios");
 			return;
 		}
@@ -71,10 +79,14 @@ public class AutenticacionBeam implements Serializable {
 				setPassword(null);
 				
 			} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Usuario o clave erroneos o no es un propietario", ""));
 				setMensajeError("Usuario o clave erroneos o no es un propietario");
 				return;
 			}
 		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Usuario o clave erroneos", ""));
 			setMensajeError("Usuario o clave erroneos");
 			return;
 		}
@@ -136,12 +148,12 @@ public class AutenticacionBeam implements Serializable {
 	private void activar(String accion){	
 		switch (accion) {
 		case "btnGuardarRecaudo":
-			RequestContext.getCurrentInstance().execute("document.getElementById('recaudosDiaForm:clavePropietarioForm:btnRecaudos').click();");	
-			RequestContext.getCurrentInstance().execute("PF('clavePropietarioRecaudo').hide();");
+			PrimeFaces.current().executeScript("document.getElementById('recaudosDiaForm:clavePropietarioForm:btnRecaudos').click();");	
+			PrimeFaces.current().executeScript("PF('clavePropietarioRecaudo').hide();");
 			break;
-		case "btnGuardarCredito":
-			RequestContext.getCurrentInstance().execute("document.getElementById('creditosForm:clavePropietarioForm:btnCreditos').click();");	
-			RequestContext.getCurrentInstance().execute("PF('clavePropietarioCredito').hide();");
+		case "btnGuardarCredito":		
+			PrimeFaces.current().executeScript("document.getElementById('creditosForm:crearCreditoForm:clavePropietarioForm:btnCreditos').click();");	
+			PrimeFaces.current().executeScript("PF('clavePropietarioCredito').hide();");
 			break;
 			
 		default:

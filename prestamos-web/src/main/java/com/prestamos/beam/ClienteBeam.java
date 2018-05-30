@@ -11,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -69,9 +70,23 @@ public class ClienteBeam implements Serializable {
 	 */
 	public void abrirPupupCrear(){
 		clienteSelect=new Cliente();
-		RequestContext.getCurrentInstance().execute("PF('crearCliente').show();");
+		limpiar();
+		RequestContext.getCurrentInstance().update("clientesForm:crearClientesForm");
+		PrimeFaces.current().executeScript("PF('crearCliente').show();");
 	}
 	
+	public void limpiar() {
+		log.info("limpiar clientes");
+		setBarrio(null);
+		setCelular(null);
+		setCreditoActivo(false);
+		setCupoCredito(null);
+		setDireccion(null);
+		setDocumento(null);
+		setFijo(null);
+		setNombre(null);	
+	}
+
 	public void abrirPopupEditar(Cliente cli){
 		
 		setBarrio(cli.getBarrio());
@@ -84,7 +99,7 @@ public class ClienteBeam implements Serializable {
 		setNombre(cli.getNombre());
 		clienteSelect=cli;
 		RequestContext.getCurrentInstance().update("clientesForm:crearClientesForm");
-		RequestContext.getCurrentInstance().execute("PF('crearCliente').show();");
+		PrimeFaces.current().executeScript("PF('crearCliente').show();");
 	}
 	
 	/**
@@ -112,7 +127,7 @@ public class ClienteBeam implements Serializable {
 			cliente.setDocumento(getDocumento().trim());
 			cliente.setFechaRegistro(new Date());
 			cliente.setFijo(getFijo());			
-			cliente.setNombre(getNombre().toUpperCase());
+			cliente.setNombre(getNombre().trim().toLowerCase());
 			clienteService.save(cliente);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Cliente creado exitosamente", ""));
@@ -122,7 +137,7 @@ public class ClienteBeam implements Serializable {
 			log.error("Error creando cliente: "+e.getMessage());
 		}
 		
-		RequestContext.getCurrentInstance().execute("PF('crearCliente').hide();");
+		PrimeFaces.current().executeScript("PF('crearCliente').hide();");
 	}
 	
 	private Boolean validarCrear() {

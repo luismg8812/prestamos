@@ -19,7 +19,8 @@
 			</div>
 			<div class="row mb-12">
 				<div class="col col-md-6 ">
-					<p:selectOneMenu value="#{creditosBeam.clienteId}"
+					<p:selectOneMenu value="#{creditosBeam.clienteId}" panelStyle="width:180px"
+                         filter="true" filterMatchMode="startsWith"
 						placeholder="Selccionar cliente">
 						<f:selectItem itemLabel="Seccionar cliente" itemValue="" />
 						<f:selectItems value="#{creditosBeam.clienteList}"
@@ -106,6 +107,9 @@
 					action="#{creditosBeam.crearCredito}" update="growl"></p:commandButton>
 				<p:commandButton styleClass="btn btn-primary" value="Cancelar"
 					onclick="PF('crearCliente').hide();"></p:commandButton>
+			</div>
+			<div class="col col-md-12 " style="visibility: hidden " id="clavePropietarioCredito">
+				<ui:include src="/WEB-INF/facelets/usuarios/clavePropietario.xhtml" />
 			</div>
 		</div>
 	</h:form>

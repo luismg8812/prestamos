@@ -6,7 +6,9 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://java.sun.com/jstl/core">
 	<script type="text/javascript">
-
+		function teclas(){
+			alert("valor: "+document.getElementById('creditosForm:clavePropietarioForm:login').style.visibility=visible);		
+		}
 	</script>
 	<h:form id="clavePropietarioForm">
 		<p:growl id="growl" life="7000" />
@@ -14,21 +16,35 @@
 		<div class="container">
 			<div class="row mb-12">
 				<div class="col col-md-6 ">
-					<p:inputText placeholder="Login" id="login"  value="#{autenticacionBeam.propietarioBorrar}"/>
+					<p:inputText placeholder="Login" id="login" 
+						value="#{autenticacionBeam.propietarioBorrar}" >
+							
+					</p:inputText>
 				</div>
 				<div class="col col-md-6 ">
-					<p:password placeholder="Contraseña" id="contraseña" value="#{autenticacionBeam.password}" />
+					<p:password placeholder="Contraseña" id="contraseña"
+						value="#{autenticacionBeam.password}" >						 
+					</p:password>
 				</div>
 			</div>
-			
-			<div class="col col-md-8 mt-2 ">
-				<p:commandButton styleClass="btn btn-primary" value="Ingrersar"  action="#{autenticacionBeam.clavePropietario}" process="@form" update="growl"></p:commandButton>
-				<p:commandButton styleClass="btn btn-primary" value="Cancelar" onclick="PF('clavePropietarioRecaudo').hide();"></p:commandButton>
+			<div class="row mb-12">
+				<div class="col "> <p:outputLabel id="mensaje" value="#{autenticacionBeam.mensajeError}"></p:outputLabel> </div>
 			</div>
-			<p:commandButton action="#{recaudosBeam.posGuardar()}" style="display:none" id="btnRecaudos"></p:commandButton>
-			<p:commandButton action="#{creditosBeam.subGuardar()}" style="display:none" id="btnCreditos"></p:commandButton>
+			<div class="col col-md-8 mt-2 ">
+				<p:commandButton styleClass="btn btn-primary" value="Ingrersar"
+					action="#{autenticacionBeam.clavePropietario}" process="@form"
+					update="growl">
+				</p:commandButton>
+				<p:commandButton styleClass="btn btn-primary" value="Cancelar"
+					onclick="PF('clavePropietarioRecaudo').hide();">
+				</p:commandButton>
+			</div>
+			<p:commandButton action="#{recaudosBeam.posGuardar()}"
+				style="display:none" id="btnRecaudos">
+			</p:commandButton>
+			<p:commandButton action="#{creditosBeam.subGuardar()}"
+				style="display:" id="btnCreditos">
+			</p:commandButton>
 		</div>
 	</h:form>
-	
-
 </ui:composition>

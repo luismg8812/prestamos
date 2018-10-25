@@ -16,6 +16,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -215,7 +216,7 @@ public class RecaudosBeam implements Serializable {
 					// borrado dependienvo del valor muestra el boton a donde
 					// redirecciona despues de logueo propietario
 					sessionMap.put("botonBorrado", "btnGuardarRecaudo");
-					RequestContext.getCurrentInstance().execute("PF('clavePropietarioRecaudo').show();");
+					PrimeFaces.current().executeScript("PF('clavePropietarioRecaudo').show();");
 					valido = Boolean.FALSE;
 					break;
 				}

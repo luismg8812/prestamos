@@ -11,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -71,7 +72,7 @@ public class CobradorBeam implements Serializable {
 	 */
 	public void abrirPupupCrear(){
 		cobradorSelect=new Cobrador();
-		RequestContext.getCurrentInstance().execute("PF('crearCobrador').show();");
+		PrimeFaces.current().executeScript("PF('crearCobrador').show();");
 	}
 	
 	public void abrirPopupEditar(Cobrador cli){
@@ -85,7 +86,7 @@ public class CobradorBeam implements Serializable {
 		setNombre(cli.getNombre());
 		cobradorSelect=cli;
 		RequestContext.getCurrentInstance().update("cobradorForm:crearCobradorForm");
-		RequestContext.getCurrentInstance().execute("PF('crearCobrador').show();");
+		PrimeFaces.current().executeScript("PF('crearCobrador').show();");
 	}
 	
 	/**
@@ -121,7 +122,7 @@ public class CobradorBeam implements Serializable {
 			log.error("Error creando Cobrador: "+e.getMessage());
 		}
 		
-		RequestContext.getCurrentInstance().execute("PF('crearCobrador').hide();");
+		PrimeFaces.current().executeScript("PF('crearCobrador').hide();");
 	}
 	
 	private Boolean validarCrear() {

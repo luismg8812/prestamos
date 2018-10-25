@@ -86,7 +86,7 @@ public class CreditoDaoImpl extends HibernateDaoSupport implements CreditoDao {
 		if(fechaFin!=null ){
 			detached.add(Restrictions.le("fechaFin", fechaFin));	
 		}
-		detached.addOrder(org.hibernate.criterion.Order.desc("fechaRegistro"));
+		detached.addOrder(org.hibernate.criterion.Order.desc("numeroCuotas"));
 		documentoList = (List<Credito>) getHibernateTemplate().findByCriteria(detached);
 		return documentoList;
 	}

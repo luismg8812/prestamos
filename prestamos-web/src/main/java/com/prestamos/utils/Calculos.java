@@ -107,20 +107,20 @@ public class Calculos {
 		return nombre;
 	}
 	
-	public static String cortarCantidades(String cantidad, int maxTamañoUnit) {
+	public static String cortarCantidades(String cantidad, int maxTamanoUnit) {
 		String unit = "";
-		int tamañoUnit = 0;
+		int tamanoUnit = 0;
 		unit = cantidad == null ? "0" : "" + cantidad;
 		if (unit.endsWith(".0")) {
 			unit = unit.substring(0, unit.length() - 2);
 		}
 		try {
-			unit = unit.substring(0, maxTamañoUnit);
+			unit = unit.substring(0, maxTamanoUnit);
 		} catch (Exception e2) {
-			tamañoUnit = unit.length();
+			tamanoUnit = unit.length();
 		}
-		if (tamañoUnit != 0) {
-			for (int j = tamañoUnit; j < maxTamañoUnit; j++) {
+		if (tamanoUnit != 0) {
+			for (int j = tamanoUnit; j < maxTamanoUnit; j++) {
 				unit = " " + unit;
 			}
 		}

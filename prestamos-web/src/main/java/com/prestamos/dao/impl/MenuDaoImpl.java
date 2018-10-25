@@ -38,6 +38,7 @@ public class MenuDaoImpl extends HibernateDaoSupport implements MenuDao {
 		return entity;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<Menu> getByAll() throws PrestamosException {
@@ -50,7 +51,7 @@ public class MenuDaoImpl extends HibernateDaoSupport implements MenuDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SubMenu> getSubMenuByMenuId(String menuId) throws PrestamosException {
-		List<SubMenu> subMenuList = new ArrayList<SubMenu>();
+		List<SubMenu> subMenuList = new ArrayList<>();
 		try {
 			DetachedCriteria detached = DetachedCriteria.forClass(SubMenu.class);	
 			detached.add(Restrictions.eq("menuId.menuId",new BigDecimal(menuId)) ) ;

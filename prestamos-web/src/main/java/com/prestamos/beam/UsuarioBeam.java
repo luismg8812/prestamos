@@ -12,6 +12,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -85,7 +86,7 @@ public class UsuarioBeam implements Serializable {
 	 */
 	public void abrirPupupCrear() {
 		usuarioSelect = new Usuario();
-		RequestContext.getCurrentInstance().execute("PF('crearUsuario').show();");
+		PrimeFaces.current().executeScript("PF('crearUsuario').show();");
 	}
 	
 	/**
@@ -107,7 +108,7 @@ public class UsuarioBeam implements Serializable {
 		}
 		usuarioSelect = usu;
 		setOpciones(new DualListModel<String>(getUsuariosSource(), getUsuariosTarget()));
-		RequestContext.getCurrentInstance().execute("PF('opcionesUsuario').show();");
+		PrimeFaces.current().executeScript("PF('opcionesUsuario').show();");
 	}
 
 	public void abrirPopupEditar(Usuario usu) {
@@ -119,7 +120,7 @@ public class UsuarioBeam implements Serializable {
 		setCorreo(usu.getCorreo());
 		usuarioSelect = usu;
 		RequestContext.getCurrentInstance().update("suarioForm:crearUsuarioForm");
-		RequestContext.getCurrentInstance().execute("PF('crearUsuario').show();");
+		PrimeFaces.current().executeScript("PF('crearUsuario').show();");
 	}
 
 	/**
@@ -158,7 +159,7 @@ public class UsuarioBeam implements Serializable {
 			log.error("Error creando usaurio: " + e.getMessage());
 		}
 
-		RequestContext.getCurrentInstance().execute("PF('crearUsuario').hide();");
+		PrimeFaces.current().executeScript("PF('crearUsuario').hide();");
 	}
 	
 	/**

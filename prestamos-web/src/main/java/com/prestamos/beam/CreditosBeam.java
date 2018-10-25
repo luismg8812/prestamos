@@ -125,12 +125,26 @@ public class CreditosBeam implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Necesita autorización para crear un credito con 0% de interes", ""));
 			sessionMap.put("botonBorrado", "btnGuardarCredito");
-			PrimeFaces.current().executeScript("document.getElementById('clavePropietarioCredito').style.visibility='visible'");
-			PrimeFaces.current().executeScript("document.getElementById('creditosForm:crearCreditoForm:clavePropietarioForm:password').value='';");
+			PrimeFaces.current()
+					.executeScript("document.getElementById('clavePropietarioCredito').style.visibility='visible'");
+			PrimeFaces.current().executeScript(
+					"document.getElementById('creditosForm:crearCreditoForm:clavePropietarioForm:password').value='';");
 			return;
 		}
 		subGuardar();
+	}
 
+	private void limpiar() {
+		setClienteId(null);
+		setCobradorId(null);
+		setFechaFin(null);
+		setFechaInicio(null);
+		setInteres(null);
+		setValorPagar(null);
+		setNumeroCuotas(null);
+		setTotalPrestamo(null);
+		setValorCuota(null);
+		setValorPagar(null);
 	}
 
 	public void subGuardar() {
@@ -156,6 +170,7 @@ public class CreditosBeam implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Crédito creado exitosamente", ""));
 			PrimeFaces.current().executeScript("PF('crearCliente').hide();");
+			limpiar();
 		} catch (PrestamosException e) {
 			log.error("Error creando credito: " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -214,7 +229,7 @@ public class CreditosBeam implements Serializable {
 			valido = Boolean.FALSE;
 
 		}
-		if (getNumeroCuotas() < 1 || getNumeroCuotas() > 200) {
+		if (getNumeroCuotas() < 1 || getNumeroCuotas() > 500) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"El numero de cuotas tiene que estar entre 1 y 500", ""));
 			valido = Boolean.FALSE;

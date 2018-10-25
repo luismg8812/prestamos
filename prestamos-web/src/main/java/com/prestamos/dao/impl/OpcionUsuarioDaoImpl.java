@@ -76,6 +76,7 @@ public class OpcionUsuarioDaoImpl extends HibernateDaoSupport implements OpcionU
 		return opcionUsuario.isEmpty()?null:opcionUsuario.get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<OpcionUsuario> getByUsuario(Long usuarioId) {
 		List<OpcionUsuario> documentoList = new ArrayList<>();		

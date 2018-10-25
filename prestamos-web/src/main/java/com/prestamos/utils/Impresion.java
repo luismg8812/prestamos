@@ -31,12 +31,13 @@ public class Impresion {
 
 	private static Logger log = Logger.getLogger(Impresion.class);
 	private static final String LINEA = "-------------------------------------------------";
+	private static final String LINEA1 = "_____________________________________________________________________________________";
 
 	public static void imprimirCuadreCaja(CuadreCajaVo cu) throws FileNotFoundException, DocumentException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd");
 		SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String pdf = "C:\\prestamos\\cuadreCaja\\cuadre_" + df.format(new Date())
-		+ cu.getCobradorId().getNombre() + ".pdf";
+		String pdf = "C:\\prestamos\\cuadreCaja\\cuadre_" + df.format(new Date()) + cu.getCobradorId().getNombre()
+				+ ".pdf";
 		FileOutputStream archivo = new FileOutputStream(pdf);
 		DecimalFormat formatea = new DecimalFormat("###,###.##");
 		Document documento = new Document();
@@ -48,23 +49,32 @@ public class Impresion {
 		documento.setMargins(10, 1, 1, 1);
 		String fechaRecaudo = df2.format(new Date());
 		String cobrador = cu.getCobradorId().getNombre();
-		String totalIngreso =Calculos.cortarCantidades(formatea.format(cu.getTotalRecaudo()), 15);
-		String efectivo =Calculos.cortarCantidades(formatea.format(cu.getEfectivo()), 15);
-		String prestado =Calculos.cortarCantidades(formatea.format(cu.getPrestado()), 15);
-		String entregado =Calculos.cortarCantidades(formatea.format(cu.getTotalEntregado()), 15);
+		String totalIngreso = Calculos.cortarCantidades(formatea.format(cu.getTotalRecaudo()), 15);
+		String efectivo = Calculos.cortarCantidades(formatea.format(cu.getEfectivo()), 15);
+		String prestado = Calculos.cortarCantidades(formatea.format(cu.getPrestado()), 15);
+		String entregado = Calculos.cortarCantidades(formatea.format(cu.getTotalEntregado()), 15);
 		documento.open();
 		documento.add(new Paragraph(new Phrase(lineSpacing, LINEA))); // LINEA
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Cuadre de caja" + fechaRecaudo, FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha recaudo
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Fecha recaudo: " + fechaRecaudo, FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha recaudo
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Cobrador: " + cobrador, FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha recaudo
+		documento.add(new Paragraph(new Phrase(lineSpacing, "Cuadre de caja" + fechaRecaudo,
+				FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha recaudo
+		documento.add(new Paragraph(new Phrase(lineSpacing, "Fecha recaudo: " + fechaRecaudo,
+				FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha recaudo
+		documento.add(new Paragraph(
+				new Phrase(lineSpacing, "Cobrador: " + cobrador, FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha
+																														// recaudo
 		documento.add(new Paragraph(new Phrase(lineSpacing, LINEA))); // LINEA
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Firma Cobrador:__________________" , FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Total ingresos: "+totalIngreso , FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Efectivo: "+efectivo , FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Prestado: "+prestado , FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Entregado: "+entregado , FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
+		documento.add(new Paragraph(new Phrase(lineSpacing, "Firma Cobrador:__________________",
+				FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
+		documento.add(new Paragraph(new Phrase(lineSpacing, "Total ingresos: " + totalIngreso,
+				FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
+		documento.add(new Paragraph(new Phrase(lineSpacing, "Efectivo: " + efectivo,
+				FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
+		documento.add(new Paragraph(new Phrase(lineSpacing, "Prestado: " + prestado,
+				FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
+		documento.add(new Paragraph(new Phrase(lineSpacing, "Entregado: " + entregado,
+				FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
 		documento.close();
-		printer( pdf);
+		printer(pdf);
 	}
 
 	public static void imprimirRecaudosDia(List<RecaudoVo> recaudos) throws FileNotFoundException, DocumentException {
@@ -78,52 +88,76 @@ public class Impresion {
 		Document documento = new Document();
 		float fntSize;
 		float lineSpacing;
-		fntSize = 9f;
+		fntSize = 8f;
 		lineSpacing = 10f;
 		PdfWriter.getInstance(documento, archivo);
 		documento.setMargins(10, 1, 1, 1);
 		String fechaRecaudo = df2.format(new Date());
 		String cobrador = recaudos.get(0).getRecaudoId().getCreditoId().getCobradorId().getNombre();
-		String hederCliente = Calculos.cortarDescripcion("CLIENTE", 25);
-		String hederDireccion = Calculos.cortarDescripcion("DIRECCIÓN", 20);
-		String hederTelefono = Calculos.cortarDescripcion("TELEFONO", 15);
-		String hederVcuota = Calculos.cortarDescripcion("VALOR CUOTA", 15);
-		String hederVRecaudado = Calculos.cortarDescripcion("VALOR RECUDADO", 15);
-		String header = hederCliente +"|"+hederDireccion +"|"+ hederTelefono +"|"+ hederVcuota +"|"+  hederVRecaudado;
+		String hederCliente = Calculos.cortarDescripcion("CLIENTE", 18);
+		String hederValorCredito = Calculos.cortarDescripcion("VALOR CREDITO", 11);
+		String hederValorCuota = Calculos.cortarDescripcion("VALOR CUOTA", 11);
+		String hederCuotas = Calculos.cortarDescripcion("CUOTA", 3);
+		String hederAbono = Calculos.cortarDescripcion("Abono", 11);
+
+		String header = hederCliente + "|" + hederValorCredito + "|" + hederValorCuota + "|" + hederCuotas + "|"
+				+ hederAbono + "||" + hederCliente + "|" + hederValorCredito + "|" + hederValorCuota + "|" + hederCuotas
+				+ "|" + hederAbono;
 		documento.open();
 		documento.add(new Paragraph(new Phrase(lineSpacing, LINEA))); // LINEA
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Fecha recaudo: " + fechaRecaudo, FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha recaudo
-		documento.add(new Paragraph(new Phrase(lineSpacing, "Cobrador: " + cobrador, FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha recaudo	
-		documento.add(new Paragraph(new Phrase(lineSpacing, "" + header, FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
-		for(RecaudoVo r: recaudos){
-			String cliente = Calculos.cortarDescripcion(r.getRecaudoId().getCreditoId().getClienteId().getNombre(), 25);
-			String direccion = Calculos.cortarDescripcion(r.getRecaudoId().getCreditoId().getClienteId().getDireccion(), 20);
-			String celular = Calculos.cortarDescripcion(r.getRecaudoId().getCreditoId().getClienteId().getCelular().toString(), 15); 
-			String valorCuota = Calculos.cortarCantidades(formatea.format(r.getRecaudoId().getCreditoId().getValorCuota()), 15);
-			String recaudado = Calculos.cortarDescripcion("", 15);
-			documento.add(new Paragraph(new Phrase(lineSpacing, "" + cliente+"|"+direccion+"|"+celular+"|"+valorCuota+"|"+recaudado, FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
+		documento.add(new Paragraph(new Phrase(lineSpacing, "Fecha recaudo: " + fechaRecaudo,
+				FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha recaudo
+		documento.add(new Paragraph(
+				new Phrase(lineSpacing, "Cobrador: " + cobrador, FontFactory.getFont(FontFactory.COURIER_BOLD, 13f)))); // fecha
+																														// recaudo
+		documento.add(new Paragraph(
+				new Phrase(lineSpacing, "" + header, FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
+		documento.add(new Paragraph(new Phrase(lineSpacing, LINEA1))); // LINEA
+		for (int i = 0; i < recaudos.size() - 1; i++) {
+			String cliente = Calculos
+					.cortarDescripcion(recaudos.get(i).getRecaudoId().getCreditoId().getClienteId().getNombre(), 18);
+			String valorCredito = Calculos.cortarCantidades(
+					formatea.format(recaudos.get(i).getRecaudoId().getCreditoId().getTotalPrestamo()), 11);
+			String cuotas = Calculos
+					.cortarCantidades("" + recaudos.get(i).getRecaudoId().getCreditoId().getNumeroCuotas(), 3);
+			String valorCuota = Calculos.cortarCantidades(
+					formatea.format(recaudos.get(i).getRecaudoId().getCreditoId().getValorCuota()), 11);
+			Double abonoT= recaudos.get(i).getRecaudoId().getCreditoId().getAbonoTotal()==null?0.0:recaudos.get(i).getRecaudoId().getCreditoId().getAbonoTotal();
+			String abono = Calculos.cortarCantidades(formatea.format(abonoT), 11);
+
+			String cliente1 = Calculos.cortarDescripcion(recaudos.get(i + 1).getRecaudoId().getCreditoId().getClienteId().getNombre(), 18);
+			String valorCredito1 = Calculos.cortarCantidades(formatea.format(recaudos.get(i + 1).getRecaudoId().getCreditoId().getTotalPrestamo()), 11);
+			String cuotas1 = Calculos
+					.cortarCantidades("" + recaudos.get(i + 1).getRecaudoId().getCreditoId().getNumeroCuotas(), 3);
+			String valorCuota1 = Calculos.cortarCantidades(
+					formatea.format(recaudos.get(i + 1).getRecaudoId().getCreditoId().getValorCuota()), 11);
+			abonoT= recaudos.get(i+1).getRecaudoId().getCreditoId().getAbonoTotal()==null?0.0:recaudos.get(i+1).getRecaudoId().getCreditoId().getAbonoTotal();
+			String abono1 = Calculos.cortarCantidades(formatea.format(abonoT), 11);
+
+			// documento.add(new Paragraph(new Phrase(lineSpacing, LINEA_))); // LINEA
+			documento.add(new Paragraph(new Phrase(lineSpacing,
+					"" + cliente + "|" + valorCredito + "|" + valorCuota + "|" + cuotas + "|" + abono + "||" + cliente1
+							+ "|" + valorCredito1 + "|" + valorCuota1 + "|" + cuotas1 + "|" + abono1,
+					FontFactory.getFont(FontFactory.COURIER_BOLD, fntSize)))); // encabezado
+			documento.add(new Paragraph(new Phrase(lineSpacing, LINEA1))); // LINEA
 		}
 		documento.close();
-		printer( pdf);
+		printer(pdf);
 	}
-	
-	public static void printer( String rutaArchivo) {
+
+	public static void printer(String rutaArchivo) {
 		PrinterJob job = PrinterJob.getPrinterJob();
 		PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
 		log.info("Number of printers configured1: " + printServices.length);
-		
+
 		PDDocument document = null;
 		try {
 			document = PDDocument.load(new File(rutaArchivo));
 			job.setPageable(new PDFPageable(document));
-			try {
-				job.print();
-			} catch (PrinterException e) {
-				log.error("error imprimiendo: "+e.getMessage());
-			}
+			job.print();
 			document.close();
-		} catch (IOException e) {
-			log.error("error imprimiendo: "+e.getMessage());
+		} catch (IOException | PrinterException e) {
+			log.error("error imprimiendo: " + e.getMessage());
 		}
 	}
 }

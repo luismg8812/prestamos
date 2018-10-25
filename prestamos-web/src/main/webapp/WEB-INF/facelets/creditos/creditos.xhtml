@@ -60,7 +60,7 @@
 					<p:commandButton styleClass="btn btn-primary" value="Buscar"
 						action="#{creditosBeam.buscar()}"
 						update="clientes,total,totalInteres"></p:commandButton>
-					<p:commandButton styleClass="btn btn-primary" value="Crear" 
+					<p:commandButton styleClass="btn btn-primary" value="Crear" update="creditosForm:crearCredito1" 
 						action="#{clienteBeam.abrirPupupCrear()}"></p:commandButton>
 					<p:commandButton styleClass="btn btn-primary" value="Exportar"></p:commandButton>
 
@@ -80,11 +80,11 @@
 
 					</p:commandButton>
 				</p:column>
-				<p:column headerText="Cliente">
-					<h:outputText value="#{cli.clienteId.nombre}" />
+				<p:column headerText="Cliente" >
+					<h:outputText value="#{cli.clienteId.nombre.toUpperCase()}" />
 				</p:column>
 				<p:column headerText="cobrador">
-					<h:outputText value="#{cli.cobradorId.nombre}" />
+					<h:outputText value="#{cli.cobradorId.nombre.toUpperCase()}" />
 				</p:column>
 				<p:column headerText="Numero Cuotas">
 					<h:outputText value="#{cli.numeroCuotas}" />

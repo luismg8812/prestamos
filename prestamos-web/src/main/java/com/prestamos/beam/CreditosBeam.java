@@ -14,7 +14,6 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
 import org.primefaces.PrimeFaces;
-import org.primefaces.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;

@@ -81,13 +81,13 @@ public class AutenticacionBeam implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 						"Usuario o clave erroneos o no es un propietario", ""));
 				setMensajeError("Usuario o clave erroneos o no es un propietario");
-				return;
+				
 			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Usuario o clave erroneos", ""));
 			setMensajeError("Usuario o clave erroneos");
-			return;
+			
 		}
 	}
 

@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
 import org.primefaces.PrimeFaces;
-import org.primefaces.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -71,7 +70,7 @@ public class ClienteBeam implements Serializable {
 	public void abrirPupupCrear(){
 		clienteSelect=new Cliente();
 		limpiar();
-		RequestContext.getCurrentInstance().update("clientesForm:crearClientesForm");
+		PrimeFaces.current().ajax().update("clientesForm:crearClientesForm");
 		PrimeFaces.current().executeScript("PF('crearCliente').show();");
 	}
 	
@@ -98,7 +97,7 @@ public class ClienteBeam implements Serializable {
 		setFijo(cli.getFijo());
 		setNombre(cli.getNombre());
 		clienteSelect=cli;
-		RequestContext.getCurrentInstance().update("clientesForm:crearClientesForm");
+		PrimeFaces.current().ajax().update("clientesForm:crearClientesForm");
 		PrimeFaces.current().executeScript("PF('crearCliente').show();");
 	}
 	

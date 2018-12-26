@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
 import org.primefaces.PrimeFaces;
-import org.primefaces.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -85,7 +84,7 @@ public class CobradorBeam implements Serializable {
 		setFijo(cli.getFijo());
 		setNombre(cli.getNombre());
 		cobradorSelect=cli;
-		RequestContext.getCurrentInstance().update("cobradorForm:crearCobradorForm");
+		PrimeFaces.current().ajax().update("cobradorForm:crearCobradorForm");
 		PrimeFaces.current().executeScript("PF('crearCobrador').show();");
 	}
 	

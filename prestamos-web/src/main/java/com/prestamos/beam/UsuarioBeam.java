@@ -13,7 +13,6 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Logger;
 import org.primefaces.PrimeFaces;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import org.springframework.context.ApplicationContext;
@@ -119,7 +118,7 @@ public class UsuarioBeam implements Serializable {
 		setRol(usu.getRolId().getRolId());
 		setCorreo(usu.getCorreo());
 		usuarioSelect = usu;
-		RequestContext.getCurrentInstance().update("suarioForm:crearUsuarioForm");
+		PrimeFaces.current().ajax().update("suarioForm:crearUsuarioForm");  
 		PrimeFaces.current().executeScript("PF('crearUsuario').show();");
 	}
 
